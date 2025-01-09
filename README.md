@@ -3,7 +3,7 @@ Livewire Demo App using Volt full page components  and Reverb websockets
 
 ## Listening Party App real time podcast 
  
- - User can start a listening party 
+- User can start a listening party 
    - podcast episode
    - start time
    - links to media file
@@ -14,9 +14,9 @@ Livewire Demo App using Volt full page components  and Reverb websockets
   - listening parties display on dashboard
 
   ## Models
-   - listening party
-   - episode
-   - podcast
-   - reactions
-   - messages
+- listening party
+- episode
+- podcast
+- reactions
+- messages
  
