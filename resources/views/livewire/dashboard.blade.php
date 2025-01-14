@@ -16,8 +16,7 @@ new class extends Component {
     public string $thing= '';
     public function createListeningParty()
     {
-        //dd($this->name,$this->startTime,$this->mediaUrl); 
-        $this->validate;
+       $this->validate();
         $episode = Episode::create([
             'media_url' => $this->mediaUrl
         ]);
@@ -28,10 +27,12 @@ new class extends Component {
             'start_time' => $this->startTime,
         ]);
 
-        return redirect()->route('listening-parties.show', $listeningParty);
+        $listeningParty = $episode->listeningParties()->create([ 'name' => $this->name, 'start_time' => $this->startTime, ]);
+     //  dd($this->name,$this->startTime,$this->mediaUrl);
+         return redirect()->route('parties.show', $listeningParty);
 
     }
-   //
+  
     public function with()
     {
         return [
@@ -46,7 +47,7 @@ new class extends Component {
         <x-card shadow="lg" rounded="lg">
         <form wire:submit='createListeningParty'class="space-y-6">
             <x-input wire:model='name' placeholder="Listening Party Name"/>
-            <x-datetime-picker wire:model='startTime' placeholder='Start Time'/> 
+            <x-datetime-picker wire:model='startTime' placeholder='Start Time'  :min="now()->subDays(1)" /> 
             <x-input wire:model='mediaUrl' placeholder='Podcast Episode URL' description='Entering the RSS Feed URL will grab the latest episode'></x-input>
             <x-button type="submit">Create Listening Party</x-button>
         </form>
