@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use App\Models\ListeningParty;
 use App\Models\Episode;
+use App\Jobs\ProcessPodcastUrl;
 
 new class extends Component {
 
@@ -26,10 +27,12 @@ new class extends Component {
             'name' => $this->name,
             'start_time' => $this->startTime,
         ]);
+       // dd($this->name,$this->startTime,$this->mediaUrl);
+        ProcessPodcastUrl::dispatch($this->mediaUrl,$listeningParty,$episode);
 
-        $listeningParty = $episode->listeningParties()->create([ 'name' => $this->name, 'start_time' => $this->startTime, ]);
-     //  dd($this->name,$this->startTime,$this->mediaUrl);
-         return redirect()->route('parties.show', $listeningParty);
+        
+     //  
+          return redirect()->route('parties.show', $listeningParty);
 
     }
   
