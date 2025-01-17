@@ -71,21 +71,64 @@ new class extends Component {
     <div>No Listening Parties</div>
 @else
  
-<div class="bg-white rounded-lg shadow overflow-hidden">
+<div class="bg-white rounded-lg shadow overflow-hidden mb-5">
     @foreach ($listeningParties as $listeningParty)
     <a href="{{ route('parties.show', $listeningParty) }}" class="block">
         <div
-        class="flex items-center justify-between p-4 border-b border-gray-200 hover:bg-gray-50 transition duration-150 ease-in-out">
+        class="flex items-center justify-between p-4 border-b border-indigo-400 hover:bg-indigo-50 transition duration-150 ease-in-out">
         <div  wire:key={{$listeningParty->id }} class="flex items-center space-x-4">
     
-         <x-avatar src="{{$listeningParty->episode->podcast->artwork_url }}" size ="xl" rounded="full"/>  {{-- --}}
-          <p>{{$listeningParty->name}}</p>
+        <div class="flex-shrink-0">
+            <img src="{{ $listeningParty->episode->podcast->artwork_url }}"
+                    class="w-20 h-20 rounded-lg" alt="Podcast Artwork" />
+        </div>
 
-        <p>   {{$listeningParty->episode->title}}</p>
-        <p>{{$listeningParty->start_time}}</p>
-        <p>{{$listeningParty->episode->podcast->artwork_url }}</p>
-        <p>{{$listeningParty->episode->podcast->title }}</p>
-    </div>
+        <div class="flex-1 min-w-0">
+            <div class="text-sm font-medium text-gray-900 truncate">
+            {{ $listeningParty->name }}
+            </div>
+            <div class="text-sm text-gray-500 truncate">
+                {{ $listeningParty->episode->title }}
+            </div>
+            <div class="text-xs text-gray-400 truncate">
+                {{ $listeningParty->episode->podcast->title }}
+            </div>
+
+            <div class="text-xs text-gray-500 mt-1">
+            {{ $listeningParty->start_time->toIso8601String() }}
+            </div>
+
+
+        {{-- x-data="{
+                startTime: '{{ $listeningParty->start_time->toIso8601String() }}',
+                countdownText: '',
+                updateCountdown() {
+                    const start = new Date(this.startTime).getTime();
+                    const now = new Date().getTime();
+                    const distance = start - now;
+
+                    if (distance < 0) {
+                        this.countdownText = 'Started';
+                    } else {
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        this.countdownText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                    }
+                }
+            }"
+                x-init="updateCountdown();
+                setInterval(() => updateCountdown(), 1000);">
+                Starts in: <span x-text="countdownText"></span>
+                
+        --}}
+            
+
+ 
+    </div> 
+  </div>
 </div>
 </a>
     @endforeach
