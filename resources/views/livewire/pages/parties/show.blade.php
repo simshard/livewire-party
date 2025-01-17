@@ -16,7 +16,7 @@ new class extends Component {
 
 <div>
      
-   <h1 class="font-bold">{{$listeningParty->name}} ||
-    {{ $listeningParty->start_time}} ||
-    {{$listeningParty->episode->media_url}}</h1> 
+   <h1 class="font-bold">{{$listeningParty->name}}   </h1> 
+   <p> {{ $listeningParty->start_time}}  </p>
+    <p>{{$listeningParty->episode}}</p>
 </div>

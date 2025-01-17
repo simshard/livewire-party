@@ -31,8 +31,8 @@ class ListeningParty extends Model
         return $this->hasMany(Message::class);
     }
 
-    // public function podcast(): HasOneThrough
-    // {
-    //     return $this->hasOneThrough(Podcast::class, Episode::class, 'id', 'id', 'episode_id', 'podcast_id');
-    // }
+    public function podcast(): HasOneThrough
+    {
+        return $this->hasOneThrough(Podcast::class, Episode::class, 'id', 'id', 'episode_id', 'podcast_id');
+    }
 }
