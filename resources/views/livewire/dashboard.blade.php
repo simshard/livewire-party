@@ -40,7 +40,7 @@ new class extends Component {
     public function with()
     {
         return [
-           'listeningParties' => ListeningParty::where('is_active',true)->with('episode.podcast')->orderBy('start_time', 'asc')-> get(),
+           'listeningParties' => ListeningParty::where('is_active',true)->whereNotNull('end_time')->with('episode.podcast')->orderBy('start_time', 'asc')-> get(),
         ];
         // dd($this->listeningParties);
     }
@@ -67,11 +67,13 @@ new class extends Component {
     </div>
     {{-- bottom - Listening Parties --}}
 <div class="max-w-lg mx-auto">
+<div class="bg-white rounded-lg shadow  mb-5">
+    <h3 class="mt-2 mb-6 ml-4 text-lg underline underline-offset-8">Listening Parties</h3>
 @if ($listeningParties->isEmpty())
     <div>No Listening Parties</div>
 @else
  
-<div class="bg-white rounded-lg shadow overflow-hidden mb-5">
+
     @foreach ($listeningParties as $listeningParty)
     <a href="{{ route('parties.show', $listeningParty) }}" class="block">
         <div
@@ -87,19 +89,16 @@ new class extends Component {
             <div class="text-sm font-medium text-gray-900 truncate">
             {{ $listeningParty->name }}
             </div>
-            <div class="text-sm text-gray-500 truncate">
+            <div class="text-sm max-w-sm text-green-700 truncate">
                 {{ $listeningParty->episode->title }}
             </div>
-            <div class="text-xs text-gray-400 truncate">
+            <div class="text-xs text-indigo-400 truncate">
                 {{ $listeningParty->episode->podcast->title }}
             </div>
 
-            <div class="text-xs text-gray-500 mt-1">
-            {{ $listeningParty->start_time->toIso8601String() }}
-            </div>
-
-
-        {{-- x-data="{
+            <div class="text-xs text-gray-500 mt-1"
+            <div class="text-xs text-gray-500 mt-1"
+            x-data="{
                 startTime: '{{ $listeningParty->start_time->toIso8601String() }}',
                 countdownText: '',
                 updateCountdown() {
@@ -113,22 +112,18 @@ new class extends Component {
                         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                        this.countdownText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                        this.countdownText = `${days}d ${hours}h ${minutes}m `;
                     }
                 }
             }"
                 x-init="updateCountdown();
-                setInterval(() => updateCountdown(), 1000);">
+                setInterval(() => updateCountdown(), 60000);"
+            >
                 Starts in: <span x-text="countdownText"></span>
-                
-        --}}
-            
-
- 
+            </div>
     </div> 
   </div>
+  <x-button flat class="ml-4">Join</x-button>
 </div>
 </a>
     @endforeach
